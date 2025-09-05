@@ -2,18 +2,20 @@ using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
+[Serializable]
 public class Inventory<T> : ICollection<T> where T : Component
 {
-    public IReadOnlyDictionary<string, T> All { get; }
+    public Lazy<IReadOnlyDictionary<string, T>> All { get; }
 
-    public List<T> Contents { get; } = new List<T>();
+    [SerializeField] List<T> Contents = new List<T>();
 
     public Inventory(string resourcePath)
     {
-        All = Resources.LoadAll(resourcePath, typeof(GameObject))
+        All = new(() => Resources.LoadAll(resourcePath, typeof(GameObject))
             .Cast<GameObject>()
-            .ToDictionary(go => go.name, go => go.GetComponent<T>());
+            .ToDictionary(go => go.name, go => go.GetComponent<T>()));
     }
 
     public void Add(T item) => Contents.Add(FindPrefab(item));
@@ -36,7 +38,7 @@ public class Inventory<T> : ICollection<T> where T : Component
 
     T FindPrefab(T item)
     {
-        if (All.TryGetValue(item.name, out T prefab))
+        if (All.Value.TryGetValue(item.name, out T prefab))
         {
             return prefab;
         }
