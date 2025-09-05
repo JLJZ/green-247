@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Random = UnityEngine.Random;
 
 public class AnimalSpawner : MonoBehaviour
 {
@@ -32,7 +33,11 @@ public class AnimalSpawner : MonoBehaviour
 
     void Start()
     {
-        SpawnAnimals(MaxAnimalCount);
+        _animalPrefabs = InventoryService.Instance.Animals
+            .Select(animal => animal.gameObject)
+            .ToList();
+        OnValidate();
+        SpawnAnimals(Random.Range(1, MaxAnimalCount));
     }
 
     public List<Animal> SpawnAnimals(int count)
@@ -41,7 +46,7 @@ public class AnimalSpawner : MonoBehaviour
             "Animal count must be between 1 and MaxAnimalCount.");
 
         var animalPrefabs = Enumerable.Range(0, AnimalPrefabs.Count)
-            .OrderBy(_ => UnityEngine.Random.Range(0f, 1f))
+            .OrderBy(_ => Random.Range(0f, 1f))
             .Take(count)
             .Select(AnimalPrefabs.ElementAt);
 
@@ -63,8 +68,8 @@ public class AnimalSpawner : MonoBehaviour
 
     static Vector3 ChooseRandomTargetPosition(Bounds bounds, int z)
     {
-        var x = UnityEngine.Random.Range(bounds.min.x, bounds.max.x);
-        var y = UnityEngine.Random.Range(bounds.min.y, bounds.max.y);
+        var x = Random.Range(bounds.min.x, bounds.max.x);
+        var y = Random.Range(bounds.min.y, bounds.max.y);
         return new Vector3(x, y, z);
     }
 

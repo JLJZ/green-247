@@ -1,20 +1,23 @@
 using System;
 using UnityEngine;
 
-public class InventoryService : MonoBehaviour
+[Serializable]
+public class InventoryService : Service<InventoryService>
 {
     [SerializeField]
-    AnimalInventory Animals = new AnimalInventory();
+    AnimalInventory _animals = new();
 
     [SerializeField]
     bool addAnimals = false;
 
-    void Awake()
+    public Inventory<Animal> Animals => _animals;
+
+    protected override void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        base.Awake();
         if (addAnimals)
         {
-            foreach (var animal in Animals.All.Value.Values)
+            foreach (var animal in Animals.AllValidItems)
             {
                 Debug.Log($"Adding {animal.name}");
                 Animals.Add(animal);
@@ -24,7 +27,7 @@ public class InventoryService : MonoBehaviour
 }
 
 [Serializable]
-class AnimalInventory : Inventory<Animal>
+public class AnimalInventory : Inventory<Animal>
 {
     public AnimalInventory() : base("Animals") { }
 }

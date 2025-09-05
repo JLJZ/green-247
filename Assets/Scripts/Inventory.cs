@@ -7,9 +7,11 @@ using System;
 [Serializable]
 public class Inventory<T> : ICollection<T> where T : Component
 {
-    public Lazy<IReadOnlyDictionary<string, T>> All { get; }
+    readonly Lazy<IReadOnlyDictionary<string, T>> All;
 
     [SerializeField] List<T> Contents = new List<T>();
+
+    public IEnumerable<T> AllValidItems => All.Value.Values;
 
     public Inventory(string resourcePath)
     {
