@@ -10,8 +10,15 @@ public class Service<T> : MonoBehaviour where T : Service<T>, new()
     {
         lock (_lock)
         {
-            if (Instance == null) Instance = (T)this;
-            else if (Instance != this) Destroy(gameObject);
+            if (Instance == null)
+            {
+                DontDestroyOnLoad(gameObject);
+                Instance = (T)this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 
