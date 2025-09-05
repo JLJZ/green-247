@@ -11,7 +11,7 @@ public class Animal : MonoBehaviour
     [Min(0.0f)]
     [SerializeField] float _maxIdleTime = 5.0f;
 
-    [field: SerializeField] Bounds WanderingBounds { get; set; }
+    [field: SerializeField] public Bounds WanderingBounds { get; set; }
 
     SpriteRenderer SpriteRenderer;
     Vector3 TargetPosition;
