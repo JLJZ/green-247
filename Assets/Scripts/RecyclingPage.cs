@@ -32,8 +32,10 @@ public class RecyclingPage : MonoBehaviour
         yield return new WaitForSeconds(
             Random.Range(2f, 4f)
         );
+        int tickets = Random.Range(1, 3);
+        InventoryService.Instance.AddTickets(tickets);
         scanner.enabled = false;
-        resultPage.Show(Random.Range(1, 3));
+        resultPage.Show(tickets);
     }
 
     void OnDestroy()

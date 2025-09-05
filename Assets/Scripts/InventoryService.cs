@@ -10,7 +10,30 @@ public class InventoryService : Service<InventoryService>
     [SerializeField]
     bool addAnimals = false;
 
+    [field: SerializeField, Min(0)]
+    public int Tickets { get; private set; } = 1;
+
     public Inventory<Animal> Animals => _animals;
+
+    public EventHandler<int> TicketsChanged { get; set; }
+
+    public int SpendTickets(int amount)
+    {
+        if (Tickets >= amount)
+        {
+            Tickets -= amount;
+            TicketsChanged?.Invoke(this, Tickets);
+            return amount;
+        }
+        return Tickets - amount;
+    }
+
+    public int AddTickets(int amount)
+    {
+        Tickets += amount;
+        TicketsChanged?.Invoke(this, amount);
+        return amount;
+    }
 
     protected override void Awake()
     {
