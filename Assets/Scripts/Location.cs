@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-[RequireComponent(typeof(SpriteRenderer))]
 public class Location : MonoBehaviour
 {
     [SerializeField] string DisplayName;
@@ -12,21 +11,48 @@ public class Location : MonoBehaviour
 
     public Sprite Sprite
     {
-        get => SpriteRenderer ? SpriteRenderer.sprite : GetComponent<SpriteRenderer>().sprite;
+        get => SpriteRenderer ? SpriteRenderer.sprite : GetComponentInChildren<SpriteRenderer>().sprite;
         set
         {
             if (SpriteRenderer)
                 SpriteRenderer.sprite = value;
             else
-                GetComponent<SpriteRenderer>().sprite = value;
+                GetComponentInChildren<SpriteRenderer>().sprite = value;
         }
     }
 
-    SpriteRenderer SpriteRenderer;
+    [SerializeField] SpriteRenderer SpriteRenderer;
+
+    void OnValidate()
+    {
+        if (!SpriteRenderer)
+        {
+            SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            if (!SpriteRenderer)
+            {
+                var instance = new GameObject("Sprite", typeof(SpriteRenderer));
+                instance.transform.SetParent(transform);
+                SpriteRenderer = instance.GetComponent<SpriteRenderer>();
+            }
+        }
+        // Check unique prefabs
+        for (int i = 0; i < AnimalPrefabs.Count; i++)
+        {
+            for (int j = i + 1; j < AnimalPrefabs.Count; j++)
+            {
+                if (AnimalPrefabs[i] == AnimalPrefabs[j])
+                {
+                    Debug.LogWarning("There are duplicate animals in the prefab list.", AnimalPrefabs[j]);
+                    return;
+                }
+            }
+        }
+    }
 
     void Awake()
     {
-        SpriteRenderer = GetComponent<SpriteRenderer>();
+        if (!SpriteRenderer)
+            SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
         Animals = AnimalPrefabs.ConvertAll(prefab => prefab.GetComponent<Animal>());
         Assert.IsFalse(string.IsNullOrEmpty(DisplayName));
     }
