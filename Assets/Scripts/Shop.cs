@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Random = Unity.Mathematics.Random;
+using Random = UnityEngine.Random;
 
 public class Shop : MonoBehaviour
 {
@@ -36,6 +36,6 @@ public class Shop : MonoBehaviour
     }
 
     Animal Roll() => Inventory.AllValidItems
-            .OrderBy(_ => new Random().NextFloat(0, 1))
+            .OrderBy(_ => Random.Range(0, 1f))
             .First();
 }
