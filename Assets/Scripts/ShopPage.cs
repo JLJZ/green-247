@@ -27,13 +27,13 @@ public class ShopPage : MonoBehaviour
     {
         ShopCanvas.enabled = true;
         RollCanvas.enabled = false;
-        RollButton.interactable = Shop.HasEnoughTickets;
         ShopResultPage.Hide();
     }
 
     void OnEnable()
     {
         RollButton.onClick.AddListener(Roll);
+        RollButton.interactable = Shop.HasEnoughTickets;
     }
 
     void OnDisable()
