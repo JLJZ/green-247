@@ -33,8 +33,14 @@ public class Animal : MonoBehaviour
 
     public Sprite Sprite
     {
-        get => SpriteRenderer.sprite;
-        set => SpriteRenderer.sprite = value;
+        get => SpriteRenderer ? SpriteRenderer.sprite : GetComponent<SpriteRenderer>().sprite;
+        set
+        {
+            if (SpriteRenderer)
+                SpriteRenderer.sprite = value;
+            else
+                GetComponent<SpriteRenderer>().sprite = value;
+        }
     }
 
     void Awake()

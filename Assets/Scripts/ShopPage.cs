@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
@@ -46,7 +48,16 @@ public class ShopPage : MonoBehaviour
         {
             ShopCanvas.enabled = false;
             RollCanvas.enabled = true;
+            StartCoroutine(Roll(4, animals.First()));
         }
         RollButton.interactable = Shop.HasEnoughTickets;
+    }
+
+    IEnumerator Roll(float seconds, Animal animal)
+    {
+        yield return new WaitForSeconds(seconds);
+        ShopResultPage.Display(animal);
+        ShopResultPage.Show();
+        RollCanvas.enabled = false;
     }
 }

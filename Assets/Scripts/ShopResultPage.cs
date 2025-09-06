@@ -48,11 +48,11 @@ public class ShopResultPage : ShopPage
 
     public void Hide()
     {
-        GetComponent<Canvas>().enabled = false;
+        Canvas.enabled = false;
     }
 
     public void Show()
     {
-        GetComponent<Canvas>().enabled = true;
+        Canvas.enabled = true;
     }
 }
