@@ -116,5 +116,9 @@ public class LocationUnlockPanel : MonoBehaviour
         return Location.Animals.All(foundAnimals.Contains);
     }
 
-    void UnlockLocation() => InventoryService.Instance.Locations.Add(Location);
+    void UnlockLocation()
+    {
+        InventoryService.Instance.Locations.Add(Location);
+        UnlockButton.gameObject.SetActive(false);
+    }
 }
