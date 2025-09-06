@@ -10,10 +10,15 @@ public class InventoryService : Service<InventoryService>
     [SerializeField]
     bool addAnimals = false;
 
+    [SerializeField]
+    LocationInventory _locations = new();
+
     [field: SerializeField, Min(0)]
     public int Tickets { get; private set; } = 1;
 
     public Inventory<Animal> Animals => _animals;
+
+    public Inventory<Location> Locations => _locations;
 
     public EventHandler<int> TicketsChanged { get; set; }
 
@@ -53,4 +58,10 @@ public class InventoryService : Service<InventoryService>
 public class AnimalInventory : Inventory<Animal>
 {
     public AnimalInventory() : base("Animals") { }
+}
+
+[Serializable]
+public class LocationInventory : Inventory<Location>
+{
+    public LocationInventory() : base("Locations") { }
 }
