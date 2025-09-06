@@ -1,13 +1,15 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 
 public class Location : MonoBehaviour
 {
-    [SerializeField] string DisplayName;
+    [field: SerializeField] public string DisplayName { get; private set; }
     [SerializeField] List<GameObject> AnimalPrefabs = new();
 
-    public IReadOnlyList<Animal> Animals { get; private set; }
+    [HideInInspector, SerializeField] List<Animal> _animals = new();
+    public IReadOnlyList<Animal> Animals => _animals;
 
     public Sprite Sprite
     {
@@ -47,13 +49,14 @@ public class Location : MonoBehaviour
                 }
             }
         }
+
+        _animals = AnimalPrefabs.ConvertAll(animal => animal.GetComponent<Animal>());
     }
 
     void Awake()
     {
         if (!SpriteRenderer)
             SpriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        Animals = AnimalPrefabs.ConvertAll(prefab => prefab.GetComponent<Animal>());
         Assert.IsFalse(string.IsNullOrEmpty(DisplayName));
     }
 }
