@@ -14,7 +14,7 @@ public class SceneSwitcher : MonoBehaviour
         SceneName = SceneToLoad.name;
     }
 #endif
-    [SerializeField] string SceneName;
+    [SerializeField, HideInInspector] string SceneName;
 
     void Awake()
     {
