@@ -26,11 +26,13 @@ public class Shop : MonoBehaviour
         }
 
         List<Animal> animals = new(tickets);
-        for (int i = 0; i < tickets; i++)
+        for (int i = 0; i < tickets / RollCost; i++)
         {
             var animal = Roll();
-            Inventory.Add(animal);
+
             animals.Add(animal);
+            Inventory.Add(animal);
+            InventoryService.Instance.SpendTickets(RollCost);
         }
         return animals;
     }
