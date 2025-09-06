@@ -23,7 +23,7 @@ public class InventoryService : Service<InventoryService>
         {
             Tickets -= amount;
             TicketsChanged?.Invoke(this, Tickets);
-            return amount;
+            return Tickets;
         }
         return Tickets - amount;
     }

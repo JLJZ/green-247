@@ -9,7 +9,7 @@ public class Inventory<T> : ICollection<T> where T : Component
 {
     readonly Lazy<IReadOnlyDictionary<string, T>> All;
 
-    [SerializeField] List<T> Contents = new List<T>();
+    [SerializeField] HashSet<T> Contents = new HashSet<T>();
 
     public IEnumerable<T> AllValidItems => All.Value.Values;
 

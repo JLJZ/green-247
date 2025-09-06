@@ -8,10 +8,12 @@ public class TicketTracker : MonoBehaviour
     void Start()
     {
         InventoryService.Instance.TicketsChanged += OnTicketsChanged;
+        tickets.text = InventoryService.Instance.Tickets.ToString("D3");
     }
 
     void OnDestroy()
     {
+        if (InventoryService.Instance == null) return;
         InventoryService.Instance.TicketsChanged -= OnTicketsChanged;
     }
 
