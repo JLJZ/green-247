@@ -15,7 +15,7 @@ public class Shop : MonoBehaviour
         Inventory = InventoryService.Instance.Animals;
     }
 
-    public bool HasEnoughTickets => InventoryService.Instance.Tickets < RollCost;
+    public bool HasEnoughTickets => InventoryService.Instance.Tickets >= RollCost;
 
     public List<Animal> Roll(int tickets)
     {
