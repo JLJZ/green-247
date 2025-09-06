@@ -1,6 +1,6 @@
-using NUnit.Framework;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 [RequireComponent(typeof(Canvas))]
 public class ResultPage : MonoBehaviour
