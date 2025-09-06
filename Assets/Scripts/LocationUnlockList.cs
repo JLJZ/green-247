@@ -75,5 +75,6 @@ public class LocationUnlockList : MonoBehaviour
         panel.SetColor(Selected);
         panel.SetNameColor(NameSelected);
         SelectedPanel = panel;
+        InventoryService.Instance.SetCurrentLocation(panel.Location);
     }
 }
