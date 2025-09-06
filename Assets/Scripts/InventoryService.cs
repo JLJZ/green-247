@@ -31,8 +31,8 @@ public class InventoryService : Service<InventoryService>
     public int AddTickets(int amount)
     {
         Tickets += amount;
-        TicketsChanged?.Invoke(this, amount);
-        return amount;
+        TicketsChanged?.Invoke(this, Tickets);
+        return Tickets;
     }
 
     protected override void Awake()
