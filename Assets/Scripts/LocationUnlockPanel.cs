@@ -1,20 +1,34 @@
+using System;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
 
-public class LocationEntry : MonoBehaviour
+public class LocationUnlockPanel : MonoBehaviour
 {
     [Header("UI Components")]
     [SerializeField] GameObject ImageContainer;
     [SerializeField] TMP_Text LocationName;
     [SerializeField] Button UnlockButton;
+    [SerializeField] Button SelectButton;
 
     [Header("Optional")]
     [SerializeField] Location _location;
 
     public Location Location => _location;
+
+    public EventHandler OnSelect { get; set; } = delegate { };
+
+    public bool AlreadyUnlocked => InventoryService.Instance.Locations.Contains(Location);
+
+    public void SetColor(Color color)
+    {
+        if (TryGetComponent<Image>(out var image))
+            image.color = color;
+    }
+
+    public void SetNameColor(Color color) => LocationName.color = color;
 
     public void Init(Location location)
     {
@@ -35,6 +49,7 @@ public class LocationEntry : MonoBehaviour
         LocationName.text = Location.DisplayName;
         InitButton();
         InitImages();
+        SelectButton.onClick.AddListener(() => OnSelect(this, EventArgs.Empty));
     }
 
     void InitButton()
@@ -92,9 +107,8 @@ public class LocationEntry : MonoBehaviour
     void OnDestroy()
     {
         UnlockButton.onClick.RemoveAllListeners();
+        SelectButton.onClick.RemoveAllListeners();
     }
-
-    bool AlreadyUnlocked => InventoryService.Instance.Locations.Contains(Location);
 
     bool CanUnlock()
     {
