@@ -34,7 +34,7 @@ public class ShopResultPage : ShopPage
         switch (animal.Rarity)
         {
             case Rarity.Common:
-                ItemRarity.color = Color.white;
+                ItemRarity.color = Color.gray;
                 break;
             case Rarity.Rare:
                 ItemRarity.color = Color.skyBlue;
@@ -43,7 +43,6 @@ public class ShopResultPage : ShopPage
                 ItemRarity.color = Color.purple;
                 break;
         }
-        ;
     }
 
     public void Hide()
