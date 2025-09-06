@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 [Serializable]
 public class InventoryService : Service<InventoryService>
@@ -13,12 +14,17 @@ public class InventoryService : Service<InventoryService>
     [SerializeField]
     LocationInventory _locations = new();
 
+    [SerializeField]
+    Location DefaultLocation;
+
     [field: SerializeField, Min(0)]
     public int Tickets { get; private set; } = 1;
 
     public Inventory<Animal> Animals => _animals;
 
     public Inventory<Location> Locations => _locations;
+
+    public Location CurrentLocation { get; private set; }
 
     public EventHandler<int> TicketsChanged { get; set; }
 
@@ -40,6 +46,14 @@ public class InventoryService : Service<InventoryService>
         return Tickets;
     }
 
+    public bool SetCurrentLocation(Location location)
+    {
+        if (!Locations.Contains(location))
+            return false;
+        CurrentLocation = location;
+        return true;
+    }
+
     protected override void Awake()
     {
         base.Awake();
@@ -51,6 +65,9 @@ public class InventoryService : Service<InventoryService>
                 Animals.Add(animal);
             }
         }
+        Assert.IsNotNull(DefaultLocation);
+        Locations.Add(DefaultLocation);
+        CurrentLocation = DefaultLocation;
     }
 }
 
